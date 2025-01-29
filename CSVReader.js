@@ -51,6 +51,7 @@ export class CSVReader {
         this.buffer = this.gatherBuffer();
         this.item = "";//used to create new strings for data parsing
         this.row = 0;//keep track of what row to place the item data
+        this.inQuotes = 0
         for (var i = 0; i != this.buffer.length; ++i) {//iterate through buffer
             //new row we need to skip
             if (this.buffer[i] == '\n') {//special char
@@ -60,9 +61,12 @@ export class CSVReader {
                 this.row++;//end row
             }
             //end of item need to start a new item
-            else if (this.buffer[i] == ',') {//special char
+            else if (this.buffer[i] == ',' && this.inQuotes != 1) {//special char
                 this.csvArray[this.row].push(this.item);//add item
                 this.item = "";//end item
+            }
+            else if (this.buffer[i] in ['\'','\"']) {
+                this.inQuotes == 0 ? this.inQuotes = 1 : this.inQuotes = 1
             }
             else {//add to item with new data
                 this.item += this.buffer[i];
