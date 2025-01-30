@@ -65,8 +65,9 @@ export class CSVReader {
                 this.csvArray[this.row].push(this.item);//add item
                 this.item = "";//end item
             }
-            else if (this.buffer[i] in ['\'','\"']) {
-                this.inQuotes == 0 ? this.inQuotes = 1 : this.inQuotes = 1
+            //data that is in quotes will now keep its commas and string together
+            else if (this.buffer[i] == "'" || this.buffer[i] == '"') {
+                this.inQuotes == 0 ? this.inQuotes = 1 : this.inQuotes = 0
             }
             else {//add to item with new data
                 this.item += this.buffer[i];
