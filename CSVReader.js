@@ -54,6 +54,7 @@ export class CSVReader {
         this.inQuotes = 0
         for (var i = 0; i != this.buffer.length; ++i) {//iterate through buffer
             //new row we need to skip
+            console.log(this.buffer[i])
             if (this.buffer[i] == '\n') {//special char
                 this.csvArray[this.row].push(this.item);//push item
                 this.csvArray.push([]);//add a new row
