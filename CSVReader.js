@@ -7,7 +7,7 @@
 */
 
 
-// version 1.0
+// version 1.03
 //imported library required to open files
 import * as fs from "fs";
 //start of class
@@ -71,12 +71,11 @@ export class CSVReader {
             //data that is in quotes will now keep its commas and string together
             else if (this.buffer[i] == "'" && this.doubleQuotes != 1) {
                 this.singleQuotes == 1 ? this.singleQuotes = 0 : this.singleQuotes = 1
-                this.item += this.buffer[i]
+                //this.item += this.buffer[i]
             }
             //if data is separated by double or single quotes we need to make sure we keep that data together
             else if (this.buffer[i] == '"' && this.singleQuotes != 1) {
                 this.doubleQuotes == 1 ? this.doubleQuotes = 0 : this.doubleQuotes = 1
-                this.item += this.buffer[i]
                 
             }
             else {//add to item with new data
