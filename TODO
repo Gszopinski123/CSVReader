@@ -1,2 +1,3 @@
 ✅ There is an error when parsing a csv file where a comma comes to soon and it is counted as a comma for the next value
-Fix error with detecting quotes
+✅ Fix error with detecting quotes
+ need to fix header pass through to get rid of headers when passed false

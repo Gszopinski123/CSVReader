@@ -51,10 +51,11 @@ export class CSVReader {
         this.buffer = this.gatherBuffer();
         this.item = "";//used to create new strings for data parsing
         this.row = 0;//keep track of what row to place the item data
-        this.inQuotes = 0
+        this.singleQuotes = 0
+        this.doubleQuotes = 0
+        //console.log(this.buffer)
         for (var i = 0; i != this.buffer.length; ++i) {//iterate through buffer
             //new row we need to skip
-            console.log(this.buffer[i])
             if (this.buffer[i] == '\n') {//special char
                 this.csvArray[this.row].push(this.item);//push item
                 this.csvArray.push([]);//add a new row
@@ -62,13 +63,21 @@ export class CSVReader {
                 this.row++;//end row
             }
             //end of item need to start a new item
-            else if (this.buffer[i] == ',' && this.inQuotes != 1) {//special char
+            else if (this.buffer[i] == ',' && this.doubleQuotes == 0) {//special char
                 this.csvArray[this.row].push(this.item);//add item
                 this.item = "";//end item
+                this.singleQuotes = 0 //potential we hit a single quote in phrase such as O'hare
             }
             //data that is in quotes will now keep its commas and string together
-            else if (this.buffer[i] == "'" || this.buffer[i] == '"') {
-                this.inQuotes == 0 ? this.inQuotes = 1 : this.inQuotes = 0
+            else if (this.buffer[i] == "'" && this.doubleQuotes != 1) {
+                this.singleQuotes == 1 ? this.singleQuotes = 0 : this.singleQuotes = 1
+                this.item += this.buffer[i]
+            }
+            //if data is separated by double or single quotes we need to make sure we keep that data together
+            else if (this.buffer[i] == '"' && this.singleQuotes != 1) {
+                this.doubleQuotes == 1 ? this.doubleQuotes = 0 : this.doubleQuotes = 1
+                this.item += this.buffer[i]
+                
             }
             else {//add to item with new data
                 this.item += this.buffer[i];
